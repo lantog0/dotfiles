@@ -1,0 +1,32 @@
+mod4 + o; {e,i}
+  {st -e vim,st -e top}
+
+mod4 + Return
+  st
+
+mod4 + w
+  firefox
+
+mod4 + d
+  dmenu_run
+
+mod4 + v
+  virtualbox
+
+mod4 + m
+  spotify
+
+XF86AudioLowerVolume
+  pactl set-sink-volume 0 -2%
+
+XF86AudioRaiseVolume
+  pactl set-sink-volume 0 +2%
+
+XF86AudioMute 
+  exec pactl set-sink-mute 0 toggle
+
+XF86MonBrightnessDown
+  bright
+
+XF86MonBrightnessUp
+  bright -u

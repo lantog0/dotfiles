@@ -1,0 +1,14 @@
+#!/bin/sh
+
+alias ls="ls --color=auto"
+alias ll="ls -lah"
+alias grep="grep --color=auto"
+alias diff="diff --color=auto"
+alias sn="sudo shutdown now"
+alias xclip="xclip -sel clipb"
+alias v="vim"
+
+if [ $(lsb_release -is) = "Debian" ]; then
+  alias au="sudo apt update"
+  alias ai="sudo apt install"
+fi

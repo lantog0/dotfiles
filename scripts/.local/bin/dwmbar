@@ -1,0 +1,52 @@
+#!/bin/sh
+
+delim="|"
+
+trap 'update' 5
+
+out () {
+  echo " E: $(cat /sys/class/net/e*/operstate)"
+  
+  echo "$delim"
+
+  OUTPUT=$(grep "^w" /proc/net/wireless)
+  printf " W: "
+
+  if [ -z "$OUTPUT" ]; then
+    echo "down"
+  else
+    echo $(echo "$OUTPUT" | awk '{ print "up (" int($3 * 100 / 70) "%)" }')
+  fi
+
+  echo "$delim"
+
+  echo "Bat: $(cat /sys/class/power_supply/BAT?/capacity)%"
+
+  echo "$delim"
+
+  pactl list sinks | awk -F "/" '/^\s*Volume/ { gsub(/ /, "", $2); print "Vol:", $2  }'
+
+  echo "$delim"
+
+  df -h . | awk ' /^\/dev/ { print "Space:", $4  } '
+
+  echo "$delim"
+
+  free -h | awk ' NR==2 { print "Mem:", $NF  }'
+
+  echo "$delim"
+
+  date '+%d %b %Y (%a) %I:%M%p'
+
+}
+
+update () {
+  xsetroot -name "$(out | tr '\n', ' ')" &
+  wait
+}
+
+while :; do
+  update
+  sleep 30 &
+  wait
+done

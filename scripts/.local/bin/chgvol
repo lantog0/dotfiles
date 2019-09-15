@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ "$1" = "-u" ]; then
+  pactl set-sink-volume 0 +2%
+else
+  pactl set-sink-volume 0 -2%
+fi
+
+restdwm

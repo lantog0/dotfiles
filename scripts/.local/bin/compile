@@ -1,0 +1,28 @@
+#!/bin/sh
+
+usage () {
+  if [ -n "$1" ]; then
+    echo "Error: $1"
+  fi
+  echo "Usage: $(basename -- "$0") <filename>"
+  exit 1
+}
+
+if [ -z $1 ]; then
+  usage "Not file given"
+elif [ ! -e "$1" ]; then
+  usage "Bad filename"
+fi
+
+FILE=$(readlink -f $1)
+DIR=$(dirname "$FILE")
+BASENAME=${FILE%.*}
+
+cd "$DIR"
+
+case "$FILE" in
+  *\.c) gcc -O3 -o "$BASENAME" "$FILE" && $BASENAME ;;
+  *\.py) python "$FILE" ;;
+  *\.go) go run "$FILE" ;;
+  *) usage "Extention not found" ;;
+esac
