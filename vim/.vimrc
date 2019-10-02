@@ -43,7 +43,7 @@ nnoremap <C-H> <C-W><C-H>
 
 " Tabs
 nnoremap <leader>t :tabedit<CR>
-nnoremap <leader>f :find ./
+nnoremap <leader>f :find 
 nnoremap <leader>q :q!<CR>
 nnoremap <leader>w :w!<CR>
 
@@ -53,8 +53,8 @@ nnoremap <leader>r :tabm +1<CR>
 
 " Change size of tabs
 " vertical
-nnoremap L <c-w>>
-nnoremap H <c-w><
+nnoremap <leader>l <c-w>>
+nnoremap <leader>h <c-w><
 " horizontal
 nnoremap J <c-w>-
 nnoremap K <c-w>+
@@ -68,9 +68,13 @@ inoremap <c-n> <ESC>diwo<ESC>pA
 " Leader Maps
 nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>h :split<CR>
-nnoremap <leader>ev :vsplit $MYVIMRC<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <leader>x :w!<CR>:! compile %<CR>
+
+" files to edit
+nnoremap ,e :vsplit $MYVIMRC<CR>
+nnoremap ,s :source $MYVIMRC<CR>
+
+nnoremap <leader><leader>t :set hlsearch!<CR>
 
 " Abbreviations
 iabbrev @@ lantog0@protonmail.com
@@ -98,3 +102,45 @@ set wildmenu
 
 " Shiftround, round the spaces to a multiply of shiftwidth
 set sr
+
+set hlsearch
+
+" vim finder
+set path+=**
+
+" status bar
+set laststatus=2
+
+" Text display
+set listchars=trail:.,tab:>-,extends:>,precedes:<,nbsp:¬
+set list
+
+" keywords
+set iskeyword+=-
+
+" camelCase => camel_case
+vnoremap ,case :s/\v\C(([a-z]+)([A-Z]))/\2_\l\3/g<CR>
+
+set statusline=%!MyStatusLine()
+
+" changemewtf
+function! MyStatusLine()
+    let statusline = ""
+    " Filename (F -> full, f -> relative)
+    let statusline .= "%f"
+    " Buffer flags
+    let statusline .= "%( %h%1*%m%*%r%w%) "
+    " File format and type
+    let statusline .= "(%{&ff}%(\/%Y%))"
+    " Left/right separator
+    let statusline .= "%="
+    " Line & column
+    let statusline .= "(%l,%c%V) "
+    " Character under cursor (decimal)
+    let statusline .= "%03.3b "
+    " Character under cursor (hexadecimal)
+    let statusline .= "0x%02.2B "
+    " File progress
+    let statusline .= "| %P/%L"
+    return statusline
+endfunction
