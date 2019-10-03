@@ -7,8 +7,24 @@ alias diff="diff --color=auto"
 alias sn="sudo shutdown now"
 alias xclip="xclip -sel clipb"
 alias v="vim"
+alias ccat="highlight --out-format=ansi"
+alias fzf="fzf --reverse"
+alias tk="tmux kill-session"
+
 
 if [ $(lsb_release -is) = "Debian" ]; then
   alias au="sudo apt update"
   alias ai="sudo apt install"
 fi
+
+fcd () { cd "$(find "$1" -type d | fzf);"; }
+
+hf () { bash -c "$(history | fzf --tac | awk '{ for (i = 2; i < NF; i++) printf $i " "; print $NF  }')"; }
+
+tn () { 
+  if [ ! -z "$1"  ]; then 
+    tmux new-session -A -s $1 
+  else
+    tmux
+  fi
+}

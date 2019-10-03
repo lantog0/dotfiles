@@ -63,7 +63,6 @@ nnoremap K <c-w>+
 inoremap <c-d> <ESC>ddi
 inoremap <c-u> <ESC>viwUea
 inoremap <c-k> <ESC>F w~ea
-inoremap <c-n> <ESC>diwo<ESC>pA
 
 " Leader Maps
 nnoremap <leader>v :vsplit<CR>
