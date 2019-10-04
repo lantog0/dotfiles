@@ -53,8 +53,8 @@ nnoremap <leader>r :tabm +1<CR>
 
 " Change size of tabs
 " vertical
-nnoremap <leader>l <c-w>>
-nnoremap <leader>h <c-w><
+nnoremap <leader><leader> <c-w>>
+nnoremap <leader>, <c-w><
 " horizontal
 nnoremap J <c-w>-
 nnoremap K <c-w>+
@@ -68,12 +68,13 @@ inoremap <c-k> <ESC>F w~ea
 nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>h :split<CR>
 nnoremap <leader>x :w!<CR>:! compile %<CR>
+nnoremap <leader>mw :! chmod +w %<CR>
 
 " files to edit
 nnoremap ,e :vsplit $MYVIMRC<CR>
 nnoremap ,s :source $MYVIMRC<CR>
 
-nnoremap <leader><leader>t :set hlsearch!<CR>
+nnoremap ,t :set hlsearch!<CR>
 
 " Abbreviations
 iabbrev @@ lantog0@protonmail.com

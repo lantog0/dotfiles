@@ -17,7 +17,7 @@ if [ $(lsb_release -is) = "Debian" ]; then
   alias ai="sudo apt install"
 fi
 
-fcd () { cd "$(find "$1" -type d | fzf);"; }
+fcd () { cd "$(find $1 -type d | fzf)"; }
 
 hf () { bash -c "$(history | fzf --tac | awk '{ for (i = 2; i < NF; i++) printf $i " "; print $NF  }')"; }
 
@@ -28,3 +28,5 @@ tn () {
     tmux
   fi
 }
+
+fcp () { cp "$(find $1 -type f | fzf)" .;  }

@@ -1,47 +1,57 @@
 #!/bin/sh
 
-delim="|"
+delim=" ⚫ "
+status=""
 
 trap 'update' 5
 
 out () {
-  echo " E: $(cat /sys/class/net/e*/operstate)"
-  
-  echo "$delim"
-
-  OUTPUT=$(grep "^w" /proc/net/wireless)
-  printf " W: "
-
-  if [ -z "$OUTPUT" ]; then
-    echo "down"
-  else
-    echo $(echo "$OUTPUT" | awk '{ print "up (" int($3 * 100 / 70) "%)" }')
+  status=""
+  if [ "$(cat /sys/class/net/e*/operstate)" = "up" ]; then
+    status="${status} E: up"
+    status="${status}$delim"
   fi
 
-  echo "$delim"
+  wireless=$(grep "^w" /proc/net/wireless)
 
-  echo "Bat: $(cat /sys/class/power_supply/BAT?/capacity)%"
+  status="${status}\x01WiFi: "
 
-  echo "$delim"
+  if [ -z "$wireless" ]; then
+    status="${status}down"
+  else
+    status="${status}\x03$(echo "$wireless" | awk '{ print "up (" int($3 * 100 / 70) "%)" }')\x01"
+  fi
 
-  pactl list sinks | awk -F "/" '/^\s*Volume/ { gsub(/ /, "", $2); print "Vol:", $2  }'
+  status="${status}$delim"
 
-  echo "$delim"
+  bat="$(cat /sys/class/power_supply/BAT?/capacity)"
 
-  df -h . | awk ' /^\/dev/ { print "Space:", $4  } '
+  if [ $bat -le 20 ]; then
+    status="${status}Battery: \x04${bat}\x01%"
+  else
+    status="${status}Battery: ${bat}%"
+  fi
 
-  echo "$delim"
+  status="${status}$delim"
 
-  free -h | awk ' NR==2 { print "Mem:", $NF  }'
+  status="${status}$(pactl list sinks | awk -F "/" '/^\s*Volume/ { gsub(/ /, "", $2); print "Vol:", $2  }')"
 
-  echo "$delim"
+  status="${status}$delim"
 
-  date '+%d %b %Y (%a) %I:%M%p'
+  status="${status}$(df -h . | awk ' /^\/dev/ { print "Space:", $4  } ')"
 
+  status="${status}$delim"
+
+  status="${status}$(free -h | awk ' NR==2 { print "Mem:", $NF  }')"
+
+  status="${status}$delim"
+
+  status="${status}$(date '+%I:%M%p')"
+  xsetroot -name "$(echo -e "$status" | tr '\n', ' ')"
 }
 
 update () {
-  xsetroot -name "$(out | tr '\n', ' ')" &
+  out &
   wait
 }
 
