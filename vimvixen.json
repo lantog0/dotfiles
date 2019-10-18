@@ -69,7 +69,8 @@
       "duckduckgo": "https://duckduckgo.com/?q={}",
       "wikipedia": "https://en.wikipedia.org/w/index.php?search={}",
       "jw": "https://jisho.org/search/{}",
-      "jt": "https://translate.yandex.com/?lang=en-ja&text={}"
+      "jt": "https://translate.yandex.com/?lang=en-ja&text={}",
+      "ew": "https://dictionary.cambridge.org/dictionary/english/{}"
     }
   },
   "properties": {

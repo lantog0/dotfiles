@@ -14,12 +14,12 @@ out () {
 
   wireless=$(grep "^w" /proc/net/wireless)
 
-  status="${status}\x01WiFi: "
+  status="${status} WiFi: "
 
   if [ -z "$wireless" ]; then
     status="${status}down"
   else
-    status="${status}\x03$(echo "$wireless" | awk '{ print "up (" int($3 * 100 / 70) "%)" }')\x01"
+    status="${status}\x03$(echo "$wireless" | awk '{ print int($3 * 100 / 70) "%" }')\x01"
   fi
 
   status="${status}$delim"
@@ -34,9 +34,12 @@ out () {
 
   status="${status}$delim"
 
-  status="${status}$(pactl list sinks | awk -F "/" '/^\s*Volume/ { gsub(/ /, "", $2); print "Vol:", $2  }')"
+  vol="$(pactl list sinks | awk -F "/" '/^\s*Volume/ { gsub(/ /, "", $2); print "Vol:", $2  }')"
 
-  status="${status}$delim"
+  if [ ! -z $vol ]; then
+    status="${status}${vol}"
+    status="${status}$delim"
+  fi
 
   status="${status}$(df -h . | awk ' /^\/dev/ { print "Space:", $4  } ')"
 
@@ -46,8 +49,8 @@ out () {
 
   status="${status}$delim"
 
-  status="${status}$(date '+%I:%M%p')"
-  xsetroot -name "$(echo -e "$status" | tr '\n', ' ')"
+  status="${status}$(date '+%I:%M%p' | tr -d '\n')"
+  xsetroot -name " $(echo -e "$status" | tr -d '\n')"
 }
 
 update () {

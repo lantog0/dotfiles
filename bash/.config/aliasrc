@@ -14,6 +14,7 @@ alias tk="tmux kill-session"
 
 if [ $(lsb_release -is) = "Debian" ]; then
   alias au="sudo apt update"
+  alias aU="sudo apt upgrade"
   alias ai="sudo apt install"
 fi
 
@@ -30,3 +31,9 @@ tn () {
 }
 
 fcp () { cp "$(find $1 -type f | fzf)" .;  }
+
+mcd () { mkdir -p "$1" && cd "$1"; }
+
+fv () { vim $(find $1 -type f | fzf);  }
+
+mt () { cd $(mktemp -d); }

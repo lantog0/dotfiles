@@ -10,14 +10,12 @@ Plugin 'vim-syntastic/syntastic'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'tpope/vim-surround'
 Plugin 'bfrg/vim-cpp-modern'
-"Plugin 'Valloric/YouCompleteMe'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'pangloss/vim-javascript'
+Plugin 'scrooloose/nerdtree'
 
-let g:NERDSpaceDelims = 1
-let g:NERDCompactSexyComs = 1
+nnoremap ,, :NERDTree<CR>
 
 call vundle#end()            " required
+
 filetype plugin indent on 
 filetype plugin on
 
@@ -29,8 +27,6 @@ set backspace=indent,eol,start
 
 set term=screen-256color
 set background=dark
-
-autocmd BufRead,BufNewFile *.py let python_highlight_all=1
 
 set splitbelow
 set splitright
@@ -62,7 +58,7 @@ nnoremap K <c-w>+
 " Insert Mode
 inoremap <c-d> <ESC>ddi
 inoremap <c-u> <ESC>viwUea
-inoremap <c-k> <ESC>F w~ea
+inoremap <c-k> <ESC>b~ea
 
 " Leader Maps
 nnoremap <leader>v :vsplit<CR>
@@ -117,6 +113,9 @@ set list
 
 " keywords
 set iskeyword+=-
+
+" colors
+colors default
 
 " camelCase => camel_case
 vnoremap ,case :s/\v\C(([a-z]+)([A-Z]))/\2_\l\3/g<CR>
