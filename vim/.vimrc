@@ -9,10 +9,11 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'tpope/vim-surround'
-Plugin 'bfrg/vim-cpp-modern'
-Plugin 'scrooloose/nerdtree'
-
-nnoremap ,, :NERDTree<CR>
+Plugin 'morhetz/gruvbox'
+Plugin 'junegunn/limelight.vim'
+Plugin 'junegunn/goyo.vim'
+Plugin 'gabrielelana/vim-markdown'
+Plugin 'reedes/vim-pencil'
 
 call vundle#end()            " required
 
@@ -31,11 +32,27 @@ set background=dark
 set splitbelow
 set splitright
 
+" Groff
+au bufnewfile *.ms 0r /home/near/.vim/groff.temp
+au bufread,bufnewfile *.ms filetype detect
+
+" Wrapping
+set tw=100
+
+" INSERT MODE
+inoremap <c-d> <ESC>ddi
+inoremap <c-u> <ESC>viwUea
+inoremap <c-k> <ESC>b~ea
+
+" NORMAL MODE
 " Navigations
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" Spaces
+nnoremap <CR> o<ESC>k
 
 " Tabs
 nnoremap <leader>t :tabedit<CR>
@@ -54,11 +71,6 @@ nnoremap <leader>, <c-w><
 " horizontal
 nnoremap J <c-w>-
 nnoremap K <c-w>+
-
-" Insert Mode
-inoremap <c-d> <ESC>ddi
-inoremap <c-u> <ESC>viwUea
-inoremap <c-k> <ESC>b~ea
 
 " Leader Maps
 nnoremap <leader>v :vsplit<CR>
@@ -115,10 +127,12 @@ set list
 set iskeyword+=-
 
 " colors
-colors default
+colors gruvbox
 
 " camelCase => camel_case
 vnoremap ,case :s/\v\C(([a-z]+)([A-Z]))/\2_\l\3/g<CR>
+
+set spell spelllang=es
 
 set statusline=%!MyStatusLine()
 

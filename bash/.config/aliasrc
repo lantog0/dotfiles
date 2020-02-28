@@ -10,7 +10,11 @@ alias v="vim"
 alias ccat="highlight --out-format=ansi"
 alias fzf="fzf --reverse"
 alias tk="tmux kill-session"
-
+alias fdef="sdcv -u \"Dictionnaire de l’Académie française, 8ème édition (1935)\""
+alias edef="sdcv -u \"English explanatory dictionary (main)\""
+alias wget="wget --read-timeout=5"
+alias youtube-dl="/usr/local/bin/youtube-dl -x --audio-format mp3"
+alias ginit="eval \"$(ssh-agent -s)\""
 
 if [ $(lsb_release -is) = "Debian" ]; then
   alias au="sudo apt update"
@@ -37,3 +41,14 @@ mcd () { mkdir -p "$1" && cd "$1"; }
 fv () { vim $(find $1 -type f | fzf);  }
 
 mt () { cd $(mktemp -d); }
+
+zathura () { 
+  nohup zathura $1 >/dev/null 2>/dev/null &
+}
+
+zat () {
+  local pdf="$(find . -name "*.pdf" | fzf)"
+  if [ ! -z $pdf ]; then
+    zathura $pdf
+  fi
+}

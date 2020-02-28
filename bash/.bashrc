@@ -9,3 +9,4 @@ export PS1="\u@\h \[$(tput setaf 4)\]\W \[$(tput sgr0)\]\$ "
 
 [ -f "$HOME/.config/aliasrc" ] && . "$HOME/.config/aliasrc"
 [ -f "$HOME/.config/exportrc" ] && . "$HOME/.config/exportrc"
+

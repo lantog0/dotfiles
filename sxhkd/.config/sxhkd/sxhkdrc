@@ -5,16 +5,10 @@ mod4 + Return
   st
 
 mod4 + w
-  firefox
+  brave-browser
 
 mod4 + d
   dmenu_run
-
-mod4 + v
-  virtualbox
-
-mod4 + m
-  spotify
 
 XF86AudioLowerVolume
   pactl set-sink-volume 0 -2%

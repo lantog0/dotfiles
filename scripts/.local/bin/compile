@@ -24,5 +24,6 @@ case "$FILE" in
   *\.c) gcc -O3 -o "$BASENAME" "$FILE" && $BASENAME ;;
   *\.py) python "$FILE" ;;
   *\.go) go run "$FILE" ;;
+  *\.ms) groff -ms "$FILE" -T pdf > ${BASENAME}.pdf ;;
   *) usage "Extention not found" ;;
 esac
