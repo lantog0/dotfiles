@@ -5,15 +5,15 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'gmarik/Vundle.vim'
+"Plugin 'gmarik/Vundle.vim'
 Plugin 'vim-syntastic/syntastic'
-Plugin 'jiangmiao/auto-pairs'
+"Plugin 'jiangmiao/auto-pairs'
 Plugin 'tpope/vim-surround'
-Plugin 'morhetz/gruvbox'
-Plugin 'junegunn/limelight.vim'
-Plugin 'junegunn/goyo.vim'
-Plugin 'gabrielelana/vim-markdown'
-Plugin 'reedes/vim-pencil'
+"Plugin 'morhetz/gruvbox'
+"Plugin 'junegunn/limelight.vim'
+"Plugin 'junegunn/goyo.vim'
+"Plugin 'gabrielelana/vim-markdown'
+"Plugin 'reedes/vim-pencil'
 
 call vundle#end()            " required
 
@@ -29,20 +29,16 @@ set backspace=indent,eol,start
 set term=screen-256color
 set background=dark
 
+set fileencodings=utf-8
+
 set splitbelow
 set splitright
-
-" Groff
-au bufnewfile *.ms 0r /home/near/.vim/groff.temp
-au bufread,bufnewfile *.ms filetype detect
-
-" Wrapping
-set tw=100
 
 " INSERT MODE
 inoremap <c-d> <ESC>ddi
 inoremap <c-u> <ESC>viwUea
-inoremap <c-k> <ESC>b~ea
+inoremap <c-k> <ESC>viwBUea
+inoremap <c-U> <ESC>_v$Uo
 
 " NORMAL MODE
 " Navigations
@@ -55,10 +51,13 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap <CR> o<ESC>k
 
 " Tabs
+nnoremap <leader>e :new<CR>
 nnoremap <leader>t :tabedit<CR>
 nnoremap <leader>f :find 
 nnoremap <leader>q :q!<CR>
 nnoremap <leader>w :w!<CR>
+nnoremap <leader>n :next<CR>
+nnoremap <leader>p :prev<CR>
 
 " Mov tabs
 nnoremap <leader>l :tabm -1<CR>
@@ -72,6 +71,9 @@ nnoremap <leader>, <c-w><
 nnoremap J <c-w>-
 nnoremap K <c-w>+
 
+nnoremap mu viwU
+nnoremap ml viwu
+
 " Leader Maps
 nnoremap <leader>v :vsplit<CR>
 nnoremap <leader>h :split<CR>
@@ -83,12 +85,20 @@ nnoremap ,e :vsplit $MYVIMRC<CR>
 nnoremap ,s :source $MYVIMRC<CR>
 
 nnoremap ,t :set hlsearch!<CR>
+nnoremap ,p :set paste<CR>
+
+" output shell
+nnoremap ,d :read !date +\%d-\%m-\%Y<CR>
 
 " Abbreviations
 iabbrev @@ lantog0@protonmail.com
 iabbrev @n Lucas Antognini
 
+vnoremap <C-c> "+y
+" input maps
+"inoremap ¿ ¿?<Esc>i
 syntax on
+
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
@@ -99,8 +109,6 @@ set number
 set relativenumber
 set clipboard=unnamed
 set noswapfile
-
-autocmd FileType c,go set shiftwidth=4 softtabstop=4 expandtab tabstop=4
 
 set encoding=utf-8
 
@@ -127,12 +135,16 @@ set list
 set iskeyword+=-
 
 " colors
-colors gruvbox
+colors elflord
 
-" camelCase => camel_case
-vnoremap ,case :s/\v\C(([a-z]+)([A-Z]))/\2_\l\3/g<CR>
+" Wrapping
+"set tw=100
+set wrap
+set linebreak
+"autocmd BufRead,BufNewFile *.txt set wr
 
-set spell spelllang=es
+" Spelling
+"set spell spelllang=es
 
 set statusline=%!MyStatusLine()
 

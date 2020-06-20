@@ -1,5 +1,5 @@
-mod4 + o; {e,i}
-  {st -e vim,st -e top}
+mod4 + o; {e,i,m,l}
+  {st -e vim,st -e top,st -e ncmpcpp, anki}
 
 mod4 + Return
   st
@@ -9,6 +9,9 @@ mod4 + w
 
 mod4 + d
   dmenu_run
+
+mod4 + b
+  zatread
 
 XF86AudioLowerVolume
   pactl set-sink-volume 0 -2%
@@ -24,3 +27,17 @@ XF86MonBrightnessDown
 
 XF86MonBrightnessUp
   bright -u
+
+mod4 + m; {p, r}
+  mpc {toggle, seek 0}
+# Changes to next/previous tracks
+XF86AudioNext
+	mpc next
+XF86AudioPrev
+	mpc prev
+# Restart track
+mod4 + period
+  mpc seek +10
+# Seek backward in song
+mod4 + comma
+  mpc seek -10

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+book="$(find ~/Books/ -name *.pdf | dmenu -i -p 'Select book')"
+
+if [ ! -z "$book" ]; then
+  zathura "$book"
+fi
