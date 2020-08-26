@@ -1,0 +1,30 @@
+#!/bin/bash
+
+url="$1"
+total="$2"
+
+[ -z "$url" ] && echo "Enter url" && read -r url
+[ -z "$total" ] && echo "Enter totalber of tracks" && read -r total
+
+echo "$url"
+url="${url//&index=*}"
+
+echo "Enter booktitle." && read -r booktitle
+echo "Enter an artist." && read -r artist
+echo "Enter an album." && read -r album
+echo "Enter date." && read -r date
+
+ext="mp3"
+escbook="$(echo "$booktitle" | iconv -cf UTF-8 -t ASCII//TRANSLIT | tr -d '[:punct:]' | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | sed "s/-\+/-/g;s/\(^-\|-\$\)//g")"
+! mkdir -p "$escbook" && echo "Do you have write access in this directory?" && exit 1
+
+for track in $( seq 1 $total ); do
+  file="$escbook/$(printf "%.2d" "$track").$ext"
+  while true; do
+    /usr/local/bin/youtube-dl -x --audio-format mp3 -f bestaudio/best "$url&index=$track" -o "$file"
+    if [[ "$?" -eq 0 ]]; then
+      break
+    fi
+  done
+  eyeD3 -Q --remove-all -a "$artist" -A "$album" -t "$title" -n "$track" -N "$total" -Y "$date" "$file"
+done

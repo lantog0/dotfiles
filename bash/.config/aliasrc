@@ -1,12 +1,11 @@
 #!/bin/sh
 
-FAC_DIR="Facultad"
-
 alias ls="ls --color=auto"
 alias ll="ls -lah"
 alias grep="grep --color=auto"
 alias diff="diff --color=auto"
 alias sn="sudo shutdown now"
+alias rn="sudo shutdown -r now"
 alias xclip="xclip -sel clipb"
 alias v="vim"
 alias ccat="highlight --out-format=ansi"
@@ -14,29 +13,45 @@ alias fzf="fzf --reverse"
 alias tk="tmux kill-session"
 alias fdef="sdcv -u \"Dictionnaire de l’Académie française, 8ème édition (1935)\""
 alias edef="sdcv -u \"English explanatory dictionary (main)\""
-alias wget="wget --read-timeout=5"
-alias youtube-dl="/usr/local/bin/youtube-dl -x --audio-format mp3"
+alias wget="wget --read-timeout=0"
 alias ginit="eval \"$(ssh-agent -s)\""
 alias ndate="date +"%d-%m-%Y""
 alias mdtoday="mkdir $(date +"%d-%m-%Y")"
-alias bashrst=". ~/.bashrc"
-alias facultadsh=". ~/$FAC_DIR/facultad.sh"
+alias bashrst=". $HOME/.bashrc"
 alias rnet="sudo systemctl restart NetworkManager"
-alias ew="cd ~/Academy/writing/"
+alias yt="/usr/local/bin/youtube-dl --add-metadata -i"
+alias yta="yt -x --audio-format mp3 -f bestaudio/best"
+alias redoff="redshift -l -32.9511:-60.6664"
+alias browfr="brave-browser --new-window \"https://www.deepl.com/translator\" \"https://fr.thefreedictionary.com/\" \"https://conjugator.reverso.net/conjugation-french.html\" \"https://context.reverso.net/translation/french-english/\""
+
+# Dir shortcuts
+alias cw="cd $HOME/intellectual/writing/"
+alias ct="cd $HOME/intellectual/thoughts/"
+alias cti="cd $HOME/intellectual/thoughts/inspecting/"
+alias cb="cd $HOME/.local/bin"
+alias cfv="cd $HOME/intellectual/translator/french/verbs"
+alias cfg="cd $HOME/intellectual/translator/french/grammatic"
+alias cfi="cd $HOME/intellectual/writing/inspecting"
+alias cr="cd $HOME/intellectual/resumes"
+
+# Configs
+alias es="v $HOME/.config/sxhkd/sxhkdrc"
+alias ei="v $HOME/.config/i3/config"
+alias ea="v $HOME/.config/aliasrc"
 
 if [ $(lsb_release -is) = "Debian" ]; then
-  alias au="sudo apt update"
-  alias aU="sudo apt upgrade"
-  alias ai="sudo apt install"
+  alias au="sudo /usr/bin/apt update"
+  alias aU="sudo /usr/bin/apt upgrade"
+  alias ai="sudo /usr/bin/apt install"
 fi
 
 fcd () { cd "$(find $1 -type d | fzf)"; }
 
 hf () { bash -c "$(history | fzf --tac | awk '{ for (i = 2; i < NF; i++) printf $i " "; print $NF  }')"; }
 
-tn () { 
-  if [ ! -z "$1"  ]; then 
-    tmux new-session -A -s $1 
+tn () {
+  if [ ! -z "$1"  ]; then
+    tmux new-session -A -s $1
   else
     tmux
   fi
@@ -46,11 +61,17 @@ fcp () { cp "$(find $1 -type f | fzf)" .;  }
 
 mcd () { mkdir -p "$1" && cd "$1"; }
 
-fv () { vim $(find $1 -type f | fzf);  }
+fv () {
+  file="$(find $1 -type f | fzf)"
+
+  if [ ! -z $file ]; then
+    vim "$file"
+  fi
+}
 
 mt () { cd $(mktemp -d); }
 
-zathura () { 
+zathura () {
   nohup zathura $1 >/dev/null 2>/dev/null &
 }
 
@@ -70,9 +91,43 @@ chgname () {
 }
 
 wtoday () {
-  vim $(date +"%d-%m-%Y").txt
+  vim $(date +"%d-%m-%Y").md
+}
+
+wp () {
+  vim -p tree.md notes.md words.md
 }
 
 vdream () {
   vim -p sueno.txt asociacion.txt extender.txt
+}
+
+rsx () {
+  pkill sxhkd
+  sxhkd &
+  disown
+}
+
+fper () {
+  printf "je - \ntu - \nil - \nnous - \nvous - \nils - " | xclip
+}
+
+anki_deck () {
+  if [ ! -z "$1" ]; then
+    cat -- "$1" | sed -E 's/ - /\x09/g; s/$/\x09/g'
+  fi
+}
+
+# Download an script in my bin folder
+wbin () {
+  if [ ! -z "$1" ]; then
+    filename=~/.local/bin/${1##*/}
+    wget -O ${filename} "$1" && chmod +x ${filename} && echo "Done"
+  fi
+}
+
+wimg () {
+  if [ ! -z "$1" ]; then
+    (cd ~/.local/share/bg && curl -O "$1")
+  fi
 }

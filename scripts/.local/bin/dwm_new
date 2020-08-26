@@ -1,0 +1,27 @@
+#!/bin/bash
+
+delim=" ⚫ "
+trap 'update' 5
+
+out () {
+  status="$(mpc -f "%title% - %artist%" | head -n 1)"
+  if [ ! -z "$status" ]; then
+    status="${status}$delim"
+  fi
+
+  status="${status}Bat: $(cat /sys/class/power_supply/BAT?/capacity)% ${delim}"
+
+  status="${status}$(date '+%I:%M%p' | tr -d '\n')"
+  xsetroot -name "$(echo -e "$status" | tr -d '\n')"
+}
+
+update () {
+  out &
+  wait
+}
+
+while :; do
+  update
+  sleep 30 &
+  wait
+done

@@ -5,19 +5,19 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-"Plugin 'gmarik/Vundle.vim'
-Plugin 'vim-syntastic/syntastic'
-"Plugin 'jiangmiao/auto-pairs'
+Plugin 'gmarik/Vundle.vim'
+"Plugin 'vim-syntastic/syntastic'
+Plugin 'jiangmiao/auto-pairs'
 Plugin 'tpope/vim-surround'
-"Plugin 'morhetz/gruvbox'
+Plugin 'morhetz/gruvbox'
 "Plugin 'junegunn/limelight.vim'
-"Plugin 'junegunn/goyo.vim'
-"Plugin 'gabrielelana/vim-markdown'
+Plugin 'junegunn/goyo.vim'
+Plugin 'gabrielelana/vim-markdown'
 "Plugin 'reedes/vim-pencil'
 
 call vundle#end()            " required
 
-filetype plugin indent on 
+filetype plugin indent on
 filetype plugin on
 
 let mapleader = "-"
@@ -38,7 +38,22 @@ set splitright
 inoremap <c-d> <ESC>ddi
 inoremap <c-u> <ESC>viwUea
 inoremap <c-k> <ESC>viwBUea
-inoremap <c-U> <ESC>_v$Uo
+inoremap <c-U> <ESC>viwUea
+"inoremap -- —
+
+autocmd BufRead,BufNewFile *.txt,*.md inoremap -- —
+
+" macrons
+imap :a ā
+imap :e ē
+imap :i ī
+imap :o ō
+imap :u ū
+imap :A Ā
+imap :E Ē
+imap :I Ī
+imap :O Ō
+imap :U Ū
 
 " NORMAL MODE
 " Navigations
@@ -53,7 +68,7 @@ nnoremap <CR> o<ESC>k
 " Tabs
 nnoremap <leader>e :new<CR>
 nnoremap <leader>t :tabedit<CR>
-nnoremap <leader>f :find 
+nnoremap <leader>f :find
 nnoremap <leader>q :q!<CR>
 nnoremap <leader>w :w!<CR>
 nnoremap <leader>n :next<CR>
@@ -87,6 +102,7 @@ nnoremap ,s :source $MYVIMRC<CR>
 nnoremap ,t :set hlsearch!<CR>
 nnoremap ,p :set paste<CR>
 
+nnoremap ,W :w<CR>:e
 " output shell
 nnoremap ,d :read !date +\%d-\%m-\%Y<CR>
 
@@ -119,7 +135,7 @@ set wildmenu
 " Shiftround, round the spaces to a multiply of shiftwidth
 set sr
 
-set hlsearch
+"set hlsearch
 
 " vim finder
 set path+=**
@@ -134,19 +150,40 @@ set list
 " keywords
 set iskeyword+=-
 
+" Options
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_underline = 0
+let g:gruvbox_italic = 0
+let g:gruvbox_termcolors = 256
+
 " colors
-colors elflord
+colors default
 
 " Wrapping
 "set tw=100
 set wrap
 set linebreak
-"autocmd BufRead,BufNewFile *.txt set wr
 
 " Spelling
 "set spell spelllang=es
+set nospell
+
+let g:markdown_enable_spell_checking = 0
 
 set statusline=%!MyStatusLine()
+
+autocmd BufRead,BufNewFile *.tex set filetype=tex
+autocmd VimLeave *.tex !texclear %
+
+map <leader>p :!opout <c-r>%<CR><CR>
+map <leader>c :!compiler %<CR><CR>
+
+" Automatically deletes all trailing whitespace and newlines at end of file on save.
+autocmd BufWritePre * %s/\s\+$//e
+autocmd BufWritePre * %s/\n\+\%$//e
+
+" Updates binds when sxhkdrc is updated
+autocmd BufWritePost *sxhkdrc !pkill -USR1 sxhkd
 
 " changemewtf
 function! MyStatusLine()

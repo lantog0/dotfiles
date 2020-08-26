@@ -1,0 +1,8 @@
+#!/bin/sh
+
+dir="$(find ~/intellectual/resumes/ -type d | dmenu)"
+
+if [ ! -z "$dir" ]; then
+  cd "$dir"
+  vim -p tree.md notes.md words.md
+fi

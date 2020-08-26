@@ -7,11 +7,26 @@ mod4 + Return
 mod4 + w
   brave-browser
 
+mod4 + W; f
+  brave-browser --new-window "https://www.deepl.com/translator" "https://cnrtl.fr/etymologie/" "https://fr.thefreedictionary.com/" "https://conjugator.reverso.net/conjugation-french.html" "https://context.reverso.net/translation/french-english/"
+
+mod4 + W; g
+  brave-browser --new-window "https://youtube.com" "https://www.deepl.com/translator#de/fr/" "https://conjugator.reverso.net/conjugation-german.html" "https://www.wordreference.com/ende/" "https://www.wordreference.com/deen/" "https://context.reverso.net/translation/german-english/" "https://www.dwds.de/wb/"
+
+mod4 + W; e
+  brave-browser --new-windows "https://conjugator.reverso.net/conjugation-spanish.html" "https://www.sinonimosonline.com/" "http://etimologias.dechile.net/" "https://dle.rae.es/" "https://context.reverso.net/translation/spanish-english/"
+
 mod4 + d
   dmenu_run
 
 mod4 + b
   zatread
+
+mod4 + x
+  slock && mpc pause
+
+mod4 + s; {w,i}
+  {st -e cwrite, st -e cinspect}
 
 XF86AudioLowerVolume
   pactl set-sink-volume 0 -2%
@@ -19,14 +34,13 @@ XF86AudioLowerVolume
 XF86AudioRaiseVolume
   pactl set-sink-volume 0 +2%
 
-XF86AudioMute 
+XF86AudioMute
   exec pactl set-sink-mute 0 toggle
 
 XF86MonBrightnessDown
-  bright
-
+  xbacklight -dec 15
 XF86MonBrightnessUp
-  bright -u
+  xbacklight -inc 15
 
 mod4 + m; {p, r}
   mpc {toggle, seek 0}
@@ -35,9 +49,11 @@ XF86AudioNext
 	mpc next
 XF86AudioPrev
 	mpc prev
+XF86AudioPlay
+  mpc toggle
 # Restart track
 mod4 + period
-  mpc seek +10
+  mpc seek +3
 # Seek backward in song
 mod4 + comma
-  mpc seek -10
+  mpc seek -3

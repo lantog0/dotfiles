@@ -19,15 +19,15 @@ out () {
   if [ -z "$wireless" ]; then
     status="${status}down"
   else
-    status="${status}\x03$(echo "$wireless" | awk '{ print int($3 * 100 / 70) "%" }')\x01"
+    status="${status}3$(echo "$wireless" | awk '{ print int($3 * 100 / 70) "%" }')"
   fi
 
   status="${status}$delim"
 
   bat="$(cat /sys/class/power_supply/BAT?/capacity)"
 
-  if [ $bat -le 20 ]; then
-    status="${status}Battery: \x04${bat}\x01%"
+  if [ $bat -le  ]; then
+    status="${status}Battery: 4${bat}%"
   else
     status="${status}Battery: ${bat}%"
   fi
@@ -60,6 +60,6 @@ update () {
 
 while :; do
   update
-  sleep 30 &
+  sleep  &
   wait
 done

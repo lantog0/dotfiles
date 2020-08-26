@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd ~/intellectual/thoughts/inspecting/
+vim $(date +"%d-%m-%Y").md
